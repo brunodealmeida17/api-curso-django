@@ -198,7 +198,9 @@ Lembre-se de substituir `{seu_token}` pelo token de autenticação válido forne
 - - djangorestframework 3.11.0 
 - - Markdown 3.1.1 - pytz 2019.3 
 -  sqlparse 0.3.0 
+
 - ## Instalação  
+
 1. Certifique-se de ter o Python instalado em seu sistema. Você pode baixar a versão mais recente do Python em [python.org](https://www.python.org/downloads/). 
 2. Clone este repositório para o seu ambiente de desenvolvimento local: 
 `git clone https://github.com/brunodealmeida17/api-curso-django`
@@ -210,8 +212,11 @@ Isso criará um ambiente virtual chamado "myenv".
 
 4.  Ative o ambiente virtual: 
 - No  Windows: 
+
 ``` myenv\Scripts\activate ``` 
+
 - No macOS/Linux: 
+
  ``` source myenv/bin/activate ```
 	 
 5.  Instale  as dependências da API. No diretório raiz do projeto, execute o seguinte comando:
@@ -225,8 +230,14 @@ Isso criará um ambiente virtual chamado "myenv".
  ``` python manage.py migrate ```
 
 7. Inicie o servidor de desenvolvimento do Django:
+
 	 ``` python manage.py runserver```
 	 
   Isso iniciará o servidor de desenvolvimento do Django.
 
 8. Agora você pode acessar a API localmente através do URL `http://localhost:8000`. Certifique-se de substituir os URLs de exemplo que foram fornecidos anteriormente pelos URLs reais da sua API. Certifique-se de que o ambiente virtual esteja ativado toda vez que você for  executar a API localmente. Caso contrário, as dependências instaladas globalmente podem interferir na execução correta da API.
+
+9. Na pasta testes possui os testes realizados com o Pytest
+
+
+
