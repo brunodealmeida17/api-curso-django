@@ -50,7 +50,9 @@ class CursoSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'titulo',
-            'url',            
+            'url',
+            'duracao',
+            'valor',
             'criacao',
             'ativo',
             'avaliacoes',
