@@ -1,0 +1,12 @@
+[Unit]
+Description=Gunicorn daemon for tubedownloads Application
+After=network.target
+
+[Service]
+User=apicursos
+Group=apicursos
+WorkingDirectory=APP_PWD/src
+ExecStart=APP_PWD/env/bin/gunicorn -c APP_PWD/src/gunicorn_conf.py escola.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

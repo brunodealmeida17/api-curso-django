@@ -14,21 +14,31 @@ Token Geek: 68bb45e0dcd5eca6f195ca8c595b8a2a31e9a42e
 Token Felicity: 099cd66b13f62cb698873b7c7442c4ab821a2823
 
 """
-
+from pathlib import Path
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')y*ovk!@mrulc#$hk*vetv-2)02*!eoij#4+i-vdp&-b!pvq8='
+DEBUG = (os.getenv('DJANGO_DEBUG', 'False') == 'True')
+#DEBUG = True
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-*$-m%w$xrml7)!^75mbamq7ngqbckel0-l*ydkh2=xwrkay6m6')
+
+if DEBUG:
+    print("Debug Mode Active")
+else:
+    if 'django-insecure' in SECRET_KEY or (len(SECRET_KEY) < 64 ):
+        print("Insecure SECRET_KEY in Production Mode - Terminating")
+        exit(1)
+    else:
+        print("Production Mode Active")
 
 ALLOWED_HOSTS = ['*']
 
