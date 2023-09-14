@@ -26,7 +26,7 @@ mkdir logs/celery
 
 sudo touch $CURRENT_DIR/logs/gunicorn/access_log
 sudo touch $CURRENT_DIR/logs/gunicorn/error_log
-sudo chown -R tubedownloads:tubedownloads $CURRENT_DIR/logs/gunicorn/
+sudo chown -R apicursos:apicursos $CURRENT_DIR/logs/gunicorn/
 sudo chmod -R g+w $CURRENT_DIR/logs/gunicorn/
 
 
