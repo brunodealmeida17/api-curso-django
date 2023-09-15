@@ -72,9 +72,9 @@ sudo mv $CURRENT_DIR/Deploy/$APP_NAME.service /etc/systemd/system/
 
 #nginx
 sed -e "s|APP_PWD|$CURRENT_DIR|g" -i $CURRENT_DIR/Deploy/$APP_NAME
-sed -e "s|SERVER_NAME|$SERVER_NAME|g" -i $CURRENT_DIR/$APP_NAME
-sed -e "s|PORTA_SERVER|$SERVER_PORT|g" -i $CURRENT_DIR/$APP_NAME
-sed -e "s|APP_NAME|$APP_NAME|g" -i $CURRENT_DIR/$APP_NAME
+sed -e "s|SERVER_NAME|$SERVER_NAME|g" -i $CURRENT_DIR/Deploy/$APP_NAME
+sed -e "s|PORTA_SERVER|$SERVER_PORT|g" -i $CURRENT_DIR/Deploy/$APP_NAME
+sed -e "s|APP_NAME|$APP_NAME|g" -i $CURRENT_DIR/Deploy/$APP_NAME
 
 sudo mv $CURRENT_DIR/Deploy/$APP_NAME /etc/nginx/sites-available/
 sudo ln -s /etc/nginx/sites-available/$APP_NAME /etc/nginx/sites-enabled/
