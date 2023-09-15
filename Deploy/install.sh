@@ -28,7 +28,6 @@ sudo groupadd $APP_NAME
 sudo useradd -s /sbin/nologin --system -g $APP_NAME $APP_NAME
 sudo usermod -aG ubuntu $APP_NAME
 
-
 mkdir logs
 mkdir logs/gunicorn
 mkdir logs/celery
@@ -38,18 +37,13 @@ sudo touch $CURRENT_DIR/logs/gunicorn/error_log
 sudo chown -R $APP_NAME:$APP_NAME $CURRENT_DIR/logs/gunicorn/
 sudo chmod -R g+w $CURRENT_DIR/logs/gunicorn/
 
-
 TOKEN=`cat /dev/urandom | tr -dc '[:alpha:]' | fold -w ${1:-96} | head -n 1`
-
-
 
 # Instale as dependências do sistema
 sudo apt-get update
 sudo apt-get install -y nginx python3.10-venv redis-server python3-pip
 
 # Configuração do projeto Django
-
-
 # Configure o ambiente virtual e ative-o
 python3 -m venv env
 source env/bin/activate
@@ -69,10 +63,11 @@ cd ..
 #GUNICORN
 sed -e "s|APP_PWD|$CURRENT_DIR|g" -i $CURRENT_DIR/Deploy/gunicorn_conf.py
 sed -e "s|TOKEN|$TOKEN|g" -i $CURRENT_DIR/Deploy/gunicorn_conf.py
-sed -e "s|APP_NAME|$APP_NAME|g" -i $CURRENT_DIR/gunicorn_conf.py
+sed -e "s|APP_NAME|$APP_NAME|g" -i $CURRENT_DIR/Deploy/gunicorn_conf.py
 mv $CURRENT_DIR/Deploy/gunicorn_conf.py $CURRENT_DIR/src/
 
 sed -e "s|APP_PWD|$CURRENT_DIR|g" -i $CURRENT_DIR/Deploy/$APP_NAME.service
+sed -e "s|APP_NAME|$APP_NAME|g" -i $CURRENT_DIR/Deploy/$APP_NAME.service
 sudo mv $CURRENT_DIR/Deploy/$APP_NAME.service /etc/systemd/system/
 
 #nginx
