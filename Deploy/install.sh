@@ -12,7 +12,7 @@ SERVER_NAME="$uri"
 
 echo "Digite a PORTA:"
 read porta
-SERVER_PORTA=$porta
+SERVER_PORT=$porta
 
 sudo mkdir /opt
 sudo chmod a+rwxX /opt
