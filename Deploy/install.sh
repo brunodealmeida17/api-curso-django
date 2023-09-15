@@ -52,7 +52,7 @@ source env/bin/activate
 # Instale as dependências do projeto
 pip install -r requirements.txt
 
-cd /src
+cd src/
 # Execute as config of Django
 export DJANGO_DEBUG=True
 python manage.py collectstatic --noinput
