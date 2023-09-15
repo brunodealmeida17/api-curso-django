@@ -1,5 +1,5 @@
 [Unit]
-Description=Gunicorn daemon for tubedownloads Application
+Description=Gunicorn daemon for APP_NAME Application
 After=network.target
 
 [Service]
