@@ -2,7 +2,7 @@ from multiprocessing import cpu_count
 
 
 # Socket Path
-bind = 'unix:/tmp/gunicorn_apicursos.sock'
+bind = 'unix:/tmp/gunicorn_APP_NAME.sock'
 
 
 # Worker Options
