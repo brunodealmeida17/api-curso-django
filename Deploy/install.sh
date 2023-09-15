@@ -4,20 +4,29 @@
 
 # Capturar o diretório atual
 cd ../..
+APP_NAME='apicursos'
+
+echo "Digite a SERVE_name:"
+read uri
+SERVER_NAME="$uri"
+
+echo "Digite a PORTA:"
+read porta
+SERVER_PORTA=$porta
 
 sudo mkdir /opt
 sudo chmod a+rwxX /opt
-sudo mv ./apicursos /opt/apicursos
+sudo mv ./$APP_NAME /opt/$APP_NAME
 
-cd /opt/apicursos/
+cd /opt/$APP_NAME/
 CURRENT_DIR=$(pwd)
 
 
 sudo /sbin/iptables -t nat -I PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8000
 
-sudo groupadd apicursos
-sudo useradd -s /sbin/nologin --system -g apicursos apicursos
-sudo usermod -aG ubuntu apicursos
+sudo groupadd $APP_NAME
+sudo useradd -s /sbin/nologin --system -g $APP_NAME $APP_NAME
+sudo usermod -aG ubuntu $APP_NAME
 
 
 mkdir logs
@@ -26,7 +35,7 @@ mkdir logs/celery
 
 sudo touch $CURRENT_DIR/logs/gunicorn/access_log
 sudo touch $CURRENT_DIR/logs/gunicorn/error_log
-sudo chown -R apicursos:apicursos $CURRENT_DIR/logs/gunicorn/
+sudo chown -R $APP_NAME:$APP_NAME $CURRENT_DIR/logs/gunicorn/
 sudo chmod -R g+w $CURRENT_DIR/logs/gunicorn/
 
 
@@ -57,28 +66,33 @@ python manage.py makemigrations
 python manage.py migrate
 cd ..
 
+#GUNICORN
 sed -e "s|APP_PWD|$CURRENT_DIR|g" -i $CURRENT_DIR/Deploy/gunicorn_conf.py
 sed -e "s|TOKEN|$TOKEN|g" -i $CURRENT_DIR/Deploy/gunicorn_conf.py
-sed -e "s|TOKEN|$TOKEN|g" -i $CURRENT_DIR/Deploy/tubedownloads.env
-sed -e "s|APP_PWD|$CURRENT_DIR|g" -i $CURRENT_DIR/Deploy/tubedownloads
-sed -e "s|APP_PWD|$CURRENT_DIR|g" -i $CURRENT_DIR/Deploy/apicursos.service
-sed -e "s|TOKEN|$TOKEN|g" -i $CURRENT_DIR/Deploy/apicursos.env
-
-mv $CURRENT_DIR/Deploy/apicursos.env $CURRENT_DIR/
+sed -e "s|APP_NAME|$APP_NAME|g" -i $CURRENT_DIR/gunicorn_conf.py
 mv $CURRENT_DIR/Deploy/gunicorn_conf.py $CURRENT_DIR/src/
-mv $CURRENT_DIR/Deploy/uvicorn_worker.py $CURRENT_DIR/src/
-sudo mv $CURRENT_DIR/Deploy/apicursos /etc/nginx/sites-available/
 
-# Config of Gunicorn
-sudo mv $CURRENT_DIR/Deploy/apicursos.service /etc/systemd/system/
+sed -e "s|APP_PWD|$CURRENT_DIR|g" -i $CURRENT_DIR/Deploy/$APP_NAME.service
+sudo mv $CURRENT_DIR/Deploy/$APP_NAME.service /etc/systemd/system/
+
+#nginx
+sed -e "s|APP_PWD|$CURRENT_DIR|g" -i $CURRENT_DIR/Deploy/$APP_NAME
+sed -e "s|SERVER_NAME|$SERVER_NAME|g" -i $CURRENT_DIR/$APP_NAME
+sed -e "s|PORTA_SERVER|$SERVER_PORT|g" -i $CURRENT_DIR/$APP_NAME
+sed -e "s|APP_NAME|$APP_NAME|g" -i $CURRENT_DIR/$APP_NAME
+
+sudo mv $CURRENT_DIR/Deploy/$APP_NAME /etc/nginx/sites-available/
+sudo ln -s /etc/nginx/sites-available/$APP_NAME /etc/nginx/sites-enabled/
+
+
+#env
+sed -e "s|TOKEN|$TOKEN|g" -i $CURRENT_DIR/Deploy/$APP_NAME.env
+mv $CURRENT_DIR/Deploy/$APP_NAME.env $CURRENT_DIR/
 
 # init the service of Gunicorn
-sudo systemctl start apicursos.service
-sudo systemctl enable apicursos.service
-sudo systemctl status apicursos.service
-
-
-sudo ln -s /etc/nginx/sites-available/apicursos /etc/nginx/sites-enabled/
+sudo systemctl start $APP_NAME.service
+sudo systemctl enable $APP_NAME.service
+sudo systemctl status $APP_NAME.service
 
 # restart the service of Nginx
 sudo systemctl restart nginx
