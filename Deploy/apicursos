@@ -1,9 +1,9 @@
 upstream django {
-    server unix:/tmp/gunicorn_apicursos.sock;
+    server unix:/tmp/gunicorn_APP_NAME.sock;
 }
 server {
-    listen 8000;
-    server_name  ;
+    listen PORTA_SERVER;
+    server_name SERVER_NAME;
 
     # Django media
     location /media  {
