@@ -11,7 +11,7 @@ server {
     }
 
     location /static {
-        alias APP_PWD/src/staticfiles; # your Django project's static files - amend as required
+        alias APP_PWD/src/static; # your Django project's static files - amend as required
     }
 
    # Finally, send all non-media requests to the Django server.
